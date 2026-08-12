@@ -1,5 +1,5 @@
 
-      name: Build Android APK
+name: Build Android APK
 
 on: [push]
 
@@ -17,14 +17,12 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Generate Gradle Wrapper
-      run: gradle wrapper
+    - name: Install Android SDK via Command Line Tools
+      run: |
+        sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew || true
-
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug
+    - name: Build APK using Gradle
+      run: gradle assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
